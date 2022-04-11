@@ -1,16 +1,15 @@
 import React, {useContext} from 'react';
 import {Button, FlatList, StyleSheet, Text, View} from 'react-native';
-import BlogContext from "../context/BlogProvider";
-import ActionTypes from "../context/ActionTypes";
+import {Context} from '../context/BlogProvider';
 
 const IndexScreen = () => {
-  const [state, dispatch] = useContext(BlogContext)
+  const [state, {addTestData}] = useContext(Context)
   return(
     <View style={styles.wrap}>
       <Text style={styles.title}>Index Screen</Text>
       <Button
         title={'add Test Post'}
-        onPress={()=> dispatch({type: ActionTypes.ADD_POST, payload:{author: 'Bogdan', content: 'Never intepreter, once teacher, always a programmer'}})}
+        onPress={() => addTestData()}
       />
       {state.blogPosts && state.blogPosts.length > 0 &&(
         <FlatList

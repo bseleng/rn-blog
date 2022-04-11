@@ -1,17 +1,13 @@
-import React, {useReducer} from "react";
+import React from "react";
 import ActionTypes from "./ActionTypes";
 import State from "../types/State";
 import Action from "../types/Action";
-
-interface IProps {
-  children: React.ReactNode;
-}
-
+import createDataContext from "./createDataContext";
 
 const reducer = (state: State, {type, payload}: Action) => {
   switch (type) {
     case ActionTypes.ADD_POST:
-      return {...state, blogPosts: [payload, ...state.blogPosts ]}
+      return {...state, blogPosts: [payload, ...state.blogPosts]}
     default:
       return state
   }
@@ -86,19 +82,16 @@ const initialState = {
   ]
 };
 
-const BlogContext = React.createContext<[State, React.Dispatch<Action>]>([
-  { blogPosts: [] },
-  () => {},
-])
-
-
-export const BlogProvider = ({children}: IProps) => {
-const [state, dispatch] = useReducer(reducer, initialState)
-  return (
-    <BlogContext.Provider value={[state, dispatch]}>
-      {children}
-    </BlogContext.Provider>
+const addTestData = (dispatch: React.Dispatch<Action>) => {
+  return () => dispatch(
+    {
+      type: ActionTypes.ADD_POST,
+      payload: {
+        author: 'Ivan',
+        content: 'A simple guy.'
+      }
+    }
   )
 }
 
-export default BlogContext
+export const {Context, Provider} = createDataContext(reducer, {addTestData}, initialState)
