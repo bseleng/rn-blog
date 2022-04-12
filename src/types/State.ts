@@ -1,6 +1,7 @@
 export type blogPost = {
   author: string
   content: string
+  id: number
 }
 
 type State = {

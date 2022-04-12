@@ -3,5 +3,6 @@ import {blogPost} from "./State";
 
 type Action =
   | {type: ActionTypes.ADD_POST, payload: blogPost}
+  | {type: ActionTypes.REMOVE_POST, payload: {id: number}}
 
 export  default  Action
