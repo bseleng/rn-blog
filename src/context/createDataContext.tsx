@@ -1,9 +1,10 @@
-import React, {Dispatch, ReactNode, useReducer} from "react"
+import React, {ReactNode, useReducer} from "react"
 import Action from "../types/Action"
 import State from "../types/State"
 
 type TReducer = (state: State, action: Action) => State;
-type TActions = Record<string, (dispatch: Dispatch<Action>) => any>
+/*TODO understand this type*/
+type TActions = Record<string, any>
 
 interface ProviderProps {
   children: ReactNode;

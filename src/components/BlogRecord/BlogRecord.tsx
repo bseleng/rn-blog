@@ -31,7 +31,7 @@ const BlogRecord = ({content, author, id}: blogPost) => {
           style={styles.editable}
         >
           <View style={styles.actionsContainer}>
-            <TouchableOpacity onPress={() => deleteBlogPost(undefined, id)}>
+            <TouchableOpacity onPress={() => deleteBlogPost(id)}>
               <Feather name="trash" size={24} color="red"/>
             </TouchableOpacity>
           </View>

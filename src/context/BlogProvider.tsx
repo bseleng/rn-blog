@@ -7,9 +7,7 @@ import createDataContext from "./createDataContext";
 const reducer = (state: State, {type, payload}: Action) => {
   switch (type) {
     case ActionTypes.ADD_POST:
-      const beforeId = state.blogPosts[0].id - 1
-      const afterId = state.blogPosts[state.blogPosts.length - 1].id + 1
-      return {...state, blogPosts: [{...payload, id: beforeId}, ...state.blogPosts]}
+      return {...state, blogPosts: [{...payload, id: Math.floor(Math.random() * 999999)}, ...state.blogPosts]}
     case ActionTypes.REMOVE_POST:
       return {...state, blogPosts: state.blogPosts.filter(blogPost => blogPost.id !== payload.id)}
     default:
@@ -115,8 +113,8 @@ const addTestData = (dispatch: React.Dispatch<Action>) => {
   )
 }
 
-const deleteBlogPost = (dispatch: React.Dispatch<Action>, id: number) => {
-  return () => dispatch(
+const deleteBlogPost = (dispatch: React.Dispatch<Action>) => {
+  return (id: number) => dispatch(
     {
       type: ActionTypes.REMOVE_POST,
       payload: {id}
