@@ -10,9 +10,10 @@ const BlogRecord = ({content, author, id}: blogPost) => {
   const [state, {deleteBlogPost}] = useContext(Context)
 
   return (
-    <View style={styles.item}>
+    <View        style={styles.item} >
       <Pressable
-        onLongPress={() => {
+
+        onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
           setIsEditable(true)
         }}
@@ -43,11 +44,10 @@ const BlogRecord = ({content, author, id}: blogPost) => {
 
 const styles = StyleSheet.create({
   item: {
-    marginVertical: 8,
+    marginVertical: 16,
     flex: 1,
-
-
-  }, separator: {
+  },
+  separator: {
     alignSelf: 'center',
     borderBottomColor: '#464646',
     borderBottomWidth: 1,

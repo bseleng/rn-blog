@@ -12,11 +12,14 @@ const IndexScreen = () => {
         onPress={() => addTestData()}
       />
       {state.blogPosts && state.blogPosts.length > 0 &&(
-        <FlatList
-          keyExtractor={(blog, index)=> index+blog.author}
-          data={state.blogPosts}
-          renderItem={({item}) => <BlogRecord content={item.content} author={item.author} id={item.id} />}
-        />
+        <View style={styles.flatListWrap}>
+          <FlatList
+            keyExtractor={(blog, index)=> index+blog.author}
+            data={state.blogPosts}
+            renderItem={({item}) => <BlogRecord content={item.content} author={item.author} id={item.id} />}
+          />
+        </View>
+
 
       )}
     </View>
@@ -25,8 +28,13 @@ const IndexScreen = () => {
 
 const styles = StyleSheet.create({
   wrap: {
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    flex: 1,
+    paddingBottom: 16
   },
+  flatListWrap: {
+    flex: 1,
+  }
 })
 
 export default  IndexScreen
