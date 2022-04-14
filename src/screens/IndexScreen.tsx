@@ -16,7 +16,7 @@ const IndexScreen = () => {
           <FlatList
             keyExtractor={(blog, index)=> index+blog.author}
             data={state.blogPosts}
-            renderItem={({item}) => <BlogRecord content={item.content} author={item.author} id={item.id} />}
+            renderItem={({item}) => <BlogRecord blogPost={item}/>}
           />
         </View>
 

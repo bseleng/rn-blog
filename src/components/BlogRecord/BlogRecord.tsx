@@ -1,13 +1,24 @@
 import React, {useContext, useState} from 'react';
 import {Feather} from "@expo/vector-icons";
-import {Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {blogPost} from "../../types/State";
 import * as Haptics from 'expo-haptics';
 import {Context} from "../../context/BlogProvider";
+import Routes from "../../constants/routes";
+import {withNavigation} from "react-navigation";
+import {TNavigatiion} from "../../types/Common";
 
-const BlogRecord = ({content, author, id}: blogPost) => {
+interface IProps {
+  blogPost: blogPost,
+  navigation?: TNavigatiion
+}
+
+const BlogRecord = ({blogPost, navigation}: IProps) => {
   const [isEditable, setIsEditable] = useState(false)
   const [state, {deleteBlogPost}] = useContext(Context)
+  const goToPost = () => {
+    navigation && navigation.navigate(Routes.Show, {id: blogPost.id})
+  }
 
   return (
     <View        style={styles.item} >
@@ -18,8 +29,8 @@ const BlogRecord = ({content, author, id}: blogPost) => {
           setIsEditable(true)
         }}
       >
-        <Text style={styles.content}>{content}</Text>
-        <Text style={styles.author}>{author}</Text>
+        <Text style={styles.content}>{blogPost.content}</Text>
+        <Text style={styles.author}>{blogPost.author}</Text>
         <View style={styles.separator}/>
       </Pressable>
       {isEditable && (
@@ -31,9 +42,12 @@ const BlogRecord = ({content, author, id}: blogPost) => {
           style={styles.editable}
         >
           <View style={styles.actionsContainer}>
-            <TouchableOpacity onPress={() => deleteBlogPost(id)}>
+            <Pressable style={styles.action} onPress={goToPost}  hitSlop={8}>
+              <Feather name="eye" size={24} color="green"/>
+            </Pressable>
+            <Pressable style={styles.action} onPress={() => deleteBlogPost(blogPost.id)} hitSlop={8}>
               <Feather name="trash" size={24} color="red"/>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </Pressable>
 
@@ -73,8 +87,14 @@ const styles = StyleSheet.create({
   },
 
   actionsContainer: {
-    marginRight: 8
+    marginRight: 8,
+    flexDirection: 'row',
+  },
+
+  action : {
+    marginLeft: 16
   }
+
 })
 
-export default BlogRecord
+export default withNavigation(BlogRecord)
