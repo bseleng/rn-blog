@@ -2,8 +2,15 @@ import React, {useContext} from 'react';
 import {Button, FlatList, StyleSheet, View} from 'react-native';
 import {Context} from '../context/BlogProvider';
 import BlogRecord from "../components/BlogRecord/BlogRecord";
+import {TNavigatiion} from "../types/Common";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {Feather} from "@expo/vector-icons";
 
-const IndexScreen = () => {
+interface IProps {
+  navigation: TNavigatiion
+}
+
+const IndexScreen = ({navigation}:IProps) => {
   const [state, {addTestData}] = useContext(Context)
   return(
     <View style={styles.wrap}>
@@ -19,11 +26,19 @@ const IndexScreen = () => {
             renderItem={({item}) => <BlogRecord blogPost={item}/>}
           />
         </View>
-
-
       )}
     </View>
   )
+}
+
+IndexScreen.navigationOptions = ({navigation}:IProps) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Create')} >
+        <Feather name="plus" size={30} />
+      </TouchableOpacity>
+    ),
+  };
 }
 
 const styles = StyleSheet.create({
@@ -34,6 +49,9 @@ const styles = StyleSheet.create({
   },
   flatListWrap: {
     flex: 1,
+  },
+  navIcon: {
+    marginRight: 18,
   }
 })
 
