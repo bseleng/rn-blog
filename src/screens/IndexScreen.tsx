@@ -10,7 +10,7 @@ interface IProps {
   navigation: TNavigatiion
 }
 
-const IndexScreen = ({navigation}:IProps) => {
+const IndexScreen = () => {
   const [state, {addTestData}] = useContext(Context)
   return(
     <View style={styles.wrap}>
@@ -21,7 +21,7 @@ const IndexScreen = ({navigation}:IProps) => {
       {state.blogPosts && state.blogPosts.length > 0 &&(
         <View style={styles.flatListWrap}>
           <FlatList
-            keyExtractor={(blog, index)=> index+blog.author}
+            keyExtractor={(blog)=> String(blog.id)}
             data={state.blogPosts}
             renderItem={({item}) => <BlogRecord blogPost={item}/>}
           />

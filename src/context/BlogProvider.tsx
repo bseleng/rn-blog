@@ -1,6 +1,6 @@
 import React from "react";
 import ActionTypes from "./ActionTypes";
-import State from "../types/State";
+import State, {blogPost} from "../types/State";
 import Action from "../types/Action";
 import createDataContext from "./createDataContext";
 
@@ -122,4 +122,13 @@ const deleteBlogPost = (dispatch: React.Dispatch<Action>) => {
   )
 }
 
-export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost}, initialState)
+const addBlogPost = (dispatch: React.Dispatch<Action>) => {
+  return (payload: blogPost) => dispatch(
+    {
+      type: ActionTypes.ADD_POST,
+      payload
+    }
+  )
+}
+
+export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost, addBlogPost}, initialState)
