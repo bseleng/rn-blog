@@ -10,9 +10,9 @@ interface IProps {
   navigation: TNavigatiion
 }
 
-const CreateScreen = ({navigation}:IProps) => {
+const CreateScreen = ({navigation}: IProps) => {
   const {control, handleSubmit, formState: {errors}} = useForm<blogPost>();
-  const onSubmit = (data:blogPost) => {
+  const onSubmit = (data: blogPost) => {
     addBlogPost(data)
     navigation.goBack()
   };
@@ -29,8 +29,7 @@ const CreateScreen = ({navigation}:IProps) => {
         render={({field: {onChange, onBlur, value}}) => (
           <TextInput
             placeholder={'Blog Author'}
-
-            style={styles.input}
+            style={[styles.input,  errors.author ? styles.errorInput: {}]}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -38,7 +37,7 @@ const CreateScreen = ({navigation}:IProps) => {
         )}
         name="author"
       />
-      {errors.author && <Text>Author name is required.</Text>}
+      {errors.author && <Text style={styles.error}>Author name is required.</Text>}
 
       <Controller
         control={control}
@@ -50,7 +49,8 @@ const CreateScreen = ({navigation}:IProps) => {
           <TextInput
             placeholder={'Blog Content'}
             multiline={true}
-            style={styles.input}
+            numberOfLines={4}
+            style={[styles.input, styles.content,  errors.content ? styles.errorInput: {}]}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -58,8 +58,10 @@ const CreateScreen = ({navigation}:IProps) => {
         )}
         name="content"
       />
+      {errors.content && <Text style={styles.error}>Content is required. Limit is 500 symbols</Text>}
 
-      <Button title="Submit" onPress={handleSubmit(onSubmit)}/>
+
+      <Button title="Add Blog Post" onPress={handleSubmit(onSubmit)}/>
     </View>
   )
 }
@@ -71,10 +73,29 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     marginVertical: 4,
-    padding: 4,
+    padding: 8,
     borderRadius: 8,
     borderColor: '#7c7c7c',
+  },
+  content: {
+    textAlignVertical: 'top'
+  },
+
+  error: {
+    textAlign: 'right',
+    color: 'red',
+    fontSize: 10,
+  },
+
+  button: {
+    paddingVertical: 16,
+
+  },
+
+  errorInput: {
+    borderColor: 'red'
   }
+
 
 })
 
