@@ -6,12 +6,14 @@ import Routes from "./src/constants/routes";
 import {Provider} from './src/context/BlogProvider';
 import ShowScreen from "./src/screens/ShowScreen";
 import CreateScreen from "./src/screens/CreateScreen";
+import EditScreen from "./src/screens/EditScreen";
 
 
 const navigator = createStackNavigator({
   [Routes.Index]: IndexScreen,
   [Routes.Show]: ShowScreen,
   [Routes.Create]: CreateScreen,
+  [Routes.Edit]: EditScreen,
 }, {
   initialRouteName: Routes.Index,
   defaultNavigationOptions: {

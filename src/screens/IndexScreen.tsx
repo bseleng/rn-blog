@@ -5,6 +5,7 @@ import BlogRecord from "../components/BlogRecord/BlogRecord";
 import {TNavigatiion} from "../types/Common";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {Feather} from "@expo/vector-icons";
+import Routes from "../constants/routes";
 
 interface IProps {
   navigation: TNavigatiion
@@ -34,7 +35,7 @@ const IndexScreen = () => {
 IndexScreen.navigationOptions = ({navigation}:IProps) => {
   return {
     headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate('Create')} >
+      <TouchableOpacity onPress={() => navigation.navigate(Routes.Create)} >
         <Feather name="plus" size={30} />
       </TouchableOpacity>
     ),

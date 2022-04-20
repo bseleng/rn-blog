@@ -10,6 +10,11 @@ const reducer = (state: State, {type, payload}: Action) => {
       return {...state, blogPosts: [{...payload, id: Math.floor(Math.random() * 999999)}, ...state.blogPosts]}
     case ActionTypes.REMOVE_POST:
       return {...state, blogPosts: state.blogPosts.filter(blogPost => blogPost.id !== payload.id)}
+    case ActionTypes.EDIT_POST:
+      const draftBlogPosts = [...state.blogPosts]
+      const currentBlogPostIndex = state.blogPosts.findIndex((blogPost) => blogPost.id === payload.id);
+      draftBlogPosts[currentBlogPostIndex]= {...draftBlogPosts[currentBlogPostIndex], author: payload.author, content: payload.content}
+      return {...state.blogPosts, blogPosts: draftBlogPosts}
     default:
       return state
   }
@@ -131,4 +136,14 @@ const addBlogPost = (dispatch: React.Dispatch<Action>) => {
   )
 }
 
-export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost, addBlogPost}, initialState)
+const editBlogPost = (dispatch: React.Dispatch<Action>) => {
+  return(payload:blogPost) => dispatch(
+    {
+      type: ActionTypes.EDIT_POST,
+      payload
+    }
+  )
+
+}
+
+export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost, addBlogPost, editBlogPost}, initialState)

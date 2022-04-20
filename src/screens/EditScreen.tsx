@@ -1,23 +1,31 @@
 import React, {useContext} from 'react';
-import {Button, StyleSheet, View} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native'
 import {useForm} from "react-hook-form";
 import {blogPost} from "../types/State";
 import {Context} from "../context/BlogProvider";
-import {withNavigation} from "react-navigation";
-import {TNavigatiion} from "../types/Common";
 import TextInputHookForm from "../components/TextInputHookForm/TextInputHookForm";
+import {TNavigatiion} from "../types/Common";
+import {getBlog} from "../utils/utils";
 
 interface IProps {
   navigation: TNavigatiion
 }
 
-const CreateScreen = ({navigation}: IProps) => {
-  const {control, handleSubmit, formState: {errors}} = useForm<blogPost>();
+const EditScreen = ({navigation}: IProps) => {
+  const blogPostId = navigation.getParam('id')
+  const [state, {editBlogPost}] = useContext(Context)
+  const currentBlog = getBlog(state, blogPostId)
+  const {control, handleSubmit, formState: {errors}} = useForm<blogPost>({
+    defaultValues: {
+      author: currentBlog ? currentBlog.author : '',
+      content: currentBlog ? currentBlog.content : '',
+      id: currentBlog ? currentBlog.id : 0,
+    }
+  });
   const onSubmit = (data: blogPost) => {
-    addBlogPost(data)
+    editBlogPost(data)
     navigation.goBack()
   };
-  const [, {addBlogPost}] = useContext(Context)
 
 
   return (
@@ -36,7 +44,7 @@ const CreateScreen = ({navigation}: IProps) => {
         multiline={true}
         numberOfLines={4}
       />
-      <Button title="Add Blog Post" onPress={handleSubmit(onSubmit)}/>
+      <Button title="Save Blog Post" onPress={handleSubmit(onSubmit)}/>
     </View>
   )
 }
@@ -50,4 +58,5 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withNavigation(CreateScreen)
+
+export default EditScreen
