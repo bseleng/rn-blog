@@ -5,7 +5,7 @@ import {blogPost} from "../../types/State";
 
 interface IProps {
   control: Control<blogPost>
-  name: string,
+  name: Exclude<keyof blogPost, 'id'>,
   errorMessage: string | undefined,
   placeholder: string,
   multiline?: boolean
