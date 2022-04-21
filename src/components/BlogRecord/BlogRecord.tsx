@@ -15,9 +15,10 @@ interface IProps {
 
 const BlogRecord = ({blogPost, navigation}: IProps) => {
   const [isEditable, setIsEditable] = useState(false)
-  const [state, {deleteBlogPost}] = useContext(Context)
+  const [, {deleteBlogPost}] = useContext(Context)
   const goToPost = () => {
     navigation && navigation.navigate(Routes.Show, {id: blogPost.id})
+    setIsEditable(false)
   }
 
   return (

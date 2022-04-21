@@ -26,6 +26,16 @@ const ShowScreen = ({navigation}:IProps) => {
   )
 }
 
+ShowScreen.navigationOptions= ({navigation}:IProps) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate(Routes.Edit, {id: navigation.getParam('id')})}>
+        <Feather name="edit-2" size={30} color="black" />
+      </TouchableOpacity>
+    ),
+  };
+}
+
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
@@ -37,16 +47,9 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 14
   },
+  icon: {
+    marginRight: 16,
+  }
 })
-
-ShowScreen.navigationOptions= ({navigation}:IProps) => {
-  return {
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate(Routes.Edit, {id: navigation.getParam('id')})}>
-        <Feather name="edit-2" size={35} color="black" />
-      </TouchableOpacity>
-    ),
-  };
-}
 
 export default withNavigation(ShowScreen)
