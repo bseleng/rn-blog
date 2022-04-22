@@ -19,7 +19,7 @@ const EditScreen = ({navigation}: IProps) => {
     defaultValues: {
       author: currentBlog ? currentBlog.author : '',
       content: currentBlog ? currentBlog.content : '',
-      id: currentBlog ? currentBlog.id : 0,
+      id: blogPostId,
     }
   });
   const onSubmit = (data: blogPost) => {
@@ -32,13 +32,13 @@ const EditScreen = ({navigation}: IProps) => {
     <View style={styles.wrap}>
       <TextInputHookForm
         control={control}
-        errorMessage={errors.author?.message}
+        errorType={errors.author?.type}
         name={'author'}
         placeholder={'Blog Author'}
       />
       <TextInputHookForm
         control={control}
-        errorMessage={errors.author?.message}
+        errorType={errors.content?.type}
         name={'content'}
         placeholder={'Blog Content'}
         multiline={true}

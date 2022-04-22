@@ -6,24 +6,26 @@ import {blogPost} from "../../types/State";
 interface IProps {
   control: Control<blogPost>
   name: Exclude<keyof blogPost, 'id'>,
-  errorMessage: string | undefined,
+  errorType: string | undefined,
   placeholder: string,
   multiline?: boolean
-  numberOfLines?:number
+  numberOfLines?: number
 }
 
-const TextInputHookForm = ({control, errorMessage,placeholder, name, multiline,  numberOfLines}:IProps) => {
+const TextInputHookForm = ({control, errorType, placeholder, name, multiline, numberOfLines}: IProps) => {
   return (
     <>
       <Controller
         control={control}
         rules={{
           required: true,
+          minLength: 2,
+          maxLength: 100,
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <TextInput
             placeholder={placeholder}
-            style={[styles.input,  errorMessage ? styles.errorInput: {}, styles.getTextAlignVertical(multiline)]}
+            style={[styles.input, styles.getTextAlignVertical(multiline), errorType ? styles.errorInput : {}]}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -33,7 +35,7 @@ const TextInputHookForm = ({control, errorMessage,placeholder, name, multiline, 
         )}
         name={name}
       />
-      {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
+        {Boolean(errorType) && <Text style={styles.error}>{name + ': ' + errorType} </Text>}
     </>
   )
 }
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     borderColor: 'red'
   },
   // @ts-ignore
-  getTextAlignVertical: (multiline: boolean) => ({textAlignVertical: multiline? 'top' : 'center'}),
+  getTextAlignVertical: (multiline: boolean) => ({textAlignVertical: multiline ? 'top' : 'center'}),
 
 })
 

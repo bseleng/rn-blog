@@ -11,9 +11,7 @@ const reducer = (state: State, {type, payload}: Action) => {
     case ActionTypes.REMOVE_POST:
       return {...state, blogPosts: state.blogPosts.filter(blogPost => blogPost.id !== payload.id)}
     case ActionTypes.EDIT_POST:
-      const draftBlogPosts = [...state.blogPosts]
-      const currentBlogPostIndex = state.blogPosts.findIndex((blogPost) => blogPost.id === payload.id);
-      draftBlogPosts[currentBlogPostIndex]= {...draftBlogPosts[currentBlogPostIndex], author: payload.author, content: payload.content}
+      const draftBlogPosts = state.blogPosts.map(blogPost => blogPost.id === payload.id ? {...payload} : blogPost)
       return {...state.blogPosts, blogPosts: draftBlogPosts}
     default:
       return state

@@ -19,18 +19,17 @@ const CreateScreen = ({navigation}: IProps) => {
   };
   const [, {addBlogPost}] = useContext(Context)
 
-
   return (
     <View style={styles.wrap}>
       <TextInputHookForm
         control={control}
-        errorMessage={errors.author?.message}
+        errorType={errors.author?.type}
         name={'author'}
         placeholder={'Blog Author'}
       />
       <TextInputHookForm
         control={control}
-        errorMessage={errors.author?.message}
+        errorType={errors.content?.type}
         name={'content'}
         placeholder={'Blog Content'}
         multiline={true}
