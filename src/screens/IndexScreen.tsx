@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Button, FlatList, StyleSheet, View} from 'react-native';
 import {Context} from '../context/BlogProvider';
 import BlogRecord from "../components/BlogRecord/BlogRecord";
@@ -12,7 +12,11 @@ interface IProps {
 }
 
 const IndexScreen = () => {
-  const [state, {addTestData}] = useContext(Context)
+  const [state, {addTestData, getBlogPosts}] = useContext(Context)
+
+  useEffect(() => {
+    getBlogPosts()
+  }, [])
   return(
     <View style={styles.wrap}>
       <Button

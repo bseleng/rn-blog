@@ -3,6 +3,7 @@ import ActionTypes from "./ActionTypes";
 import State, {blogPost} from "../types/State";
 import Action from "../types/Action";
 import createDataContext from "./createDataContext";
+import jsonServer from "../api/jsonServer";
 
 const reducer = (state: State, {type, payload}: Action) => {
   switch (type) {
@@ -13,6 +14,8 @@ const reducer = (state: State, {type, payload}: Action) => {
     case ActionTypes.EDIT_POST:
       const draftBlogPosts = state.blogPosts.map(blogPost => blogPost.id === payload.id ? {...payload} : blogPost)
       return {...state.blogPosts, blogPosts: draftBlogPosts}
+    case ActionTypes.GET_BLOG_POSTS:
+      return {...state, blogPosts: payload}
     default:
       return state
   }
@@ -141,7 +144,17 @@ const editBlogPost = (dispatch: React.Dispatch<Action>) => {
       payload
     }
   )
-
 }
 
-export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost, addBlogPost, editBlogPost}, initialState)
+const getBlogPosts = (dispatch: React.Dispatch<Action>) => {
+  return async() => {
+    const response = await jsonServer.get('/blogPosts')
+
+    dispatch({
+      type: ActionTypes.GET_BLOG_POSTS,
+      payload: response.data
+    })
+  }
+}
+
+export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost, addBlogPost, editBlogPost, getBlogPosts}, initialState)
