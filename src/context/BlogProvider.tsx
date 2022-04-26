@@ -22,88 +22,7 @@ const reducer = (state: State, {type, payload}: Action) => {
 }
 
 const initialState = {
-  blogPosts: [
-    {
-      author: 'William Shatner',
-      content: 'Failed SAT. Lost scholarship. Invented rocket.',
-      id: 1
-    },
-    {
-      author: 'Eileen Gunn',
-      content: 'Computer, did we bring batteries? Computer?',
-      id: 2
-    },
-    {
-      author: 'David Brin',
-      content: 'Vacuum collision. Orbits diverge. Farewell, love.',
-      id: 3
-    },
-    {
-      author: 'Joss Whedon',
-      content: 'Gown removed carelessly. Head, less so.',
-      id: 4
-    },
-    {
-      author: 'Stan Lee',
-      content: 'Automobile warranty expires. So does engine.',
-      id: 5
-    },
-    {
-      author: 'Alan Moore',
-      content: 'Machine. Unexpectedly, I’d invented a time',
-      id: 6
-    },
-    {
-      author: 'Margaret Atwood',
-      content: 'Longed for him. Got him. Shit.',
-      id: 7
-    },
-    {
-      author: 'Rudy Rucker',
-      content: 'His penis snapped off; he’s pregnant!',
-      id: 8
-    },
-    {
-      author: 'Gregory Maguire',
-      content: 'From torched skyscrapers, men grew wings.',
-      id: 9
-    },
-    {
-      author: 'Charles Stross',
-      content: 'Internet “wakes up?” Ridicu- \nno carrier.',
-      id: 10
-    },
-    {
-      author: 'Frank Miller',
-      content: 'With bloody hands, I say good-bye.',
-      id: 11
-    },
-    {
-      author: 'Steven Meretzky',
-      content: 'Wasted day. Wasted life. Dessert, please.',
-      id: 12
-    },
-    {
-      author: 'Ronald D. Moore',
-      content: '“Cellar?” “Gate to, uh … hell, actually.”',
-      id: 13
-    },
-    {
-      author: 'Vernor Vinge',
-      content: 'Epitaph: Foolish humans, never escaped Earth.',
-      id: 14
-    },
-    {
-      author: 'Bruce Sterling',
-      content: 'It cost too much, staying human.',
-      id: 15
-    },
-    {
-      author: 'James Patrick Kelly',
-      content: 'We kissed. She melted. Mop please!',
-      id: 16
-    },
-  ]
+  blogPosts: []
 };
 
 const addTestData = (dispatch: React.Dispatch<Action>) => {
@@ -150,6 +69,7 @@ const getBlogPosts = (dispatch: React.Dispatch<Action>) => {
   return async() => {
     const response = await jsonServer.get('/blogPosts')
 
+    console.log(response.data)
     dispatch({
       type: ActionTypes.GET_BLOG_POSTS,
       payload: response.data
