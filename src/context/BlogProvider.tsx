@@ -26,16 +26,13 @@ const initialState = {
 };
 
 const addTestData = (dispatch: React.Dispatch<Action>) => {
-  return () => dispatch(
-    {
-      type: ActionTypes.ADD_POST,
-      payload: {
+  return async () => {
+    const testPayload =  {
         author: 'Ivan',
         content: 'A simple guy.',
-        id: 0
       }
-    }
-  )
+    const {data} = await jsonServer.post('/blogPosts', testPayload)
+  }
 }
 
 const deleteBlogPost = (dispatch: React.Dispatch<Action>) => {
@@ -48,31 +45,37 @@ const deleteBlogPost = (dispatch: React.Dispatch<Action>) => {
 }
 
 const addBlogPost = (dispatch: React.Dispatch<Action>) => {
-  return (payload: blogPost) => dispatch(
-    {
-      type: ActionTypes.ADD_POST,
-      payload
-    }
-  )
+  return async(payload: blogPost) => {
+    const {data} = await jsonServer.post('/blogPosts', payload)
+
+    // dispatch(
+    //   {
+    //     type: ActionTypes.ADD_POST,
+    //     payload
+    //   }
+    // )
+  }
 }
 
 const editBlogPost = (dispatch: React.Dispatch<Action>) => {
-  return(payload:blogPost) => dispatch(
-    {
-      type: ActionTypes.EDIT_POST,
-      payload
-    }
-  )
+  return async (payload:blogPost) => {
+
+    dispatch(
+      {
+        type: ActionTypes.EDIT_POST,
+        payload
+      }
+    )
+  }
 }
 
 const getBlogPosts = (dispatch: React.Dispatch<Action>) => {
   return async() => {
-    const response = await jsonServer.get('/blogPosts')
+    const {data} = await jsonServer.get('/blogPosts')
 
-    console.log(response.data)
     dispatch({
       type: ActionTypes.GET_BLOG_POSTS,
-      payload: response.data
+      payload: data
     })
   }
 }

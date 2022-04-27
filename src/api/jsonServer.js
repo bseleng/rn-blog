@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export  default  axios.create({
-  baseURL: 'https://slimy-grasshopper-29.loca.lt/'
+  baseURL: 'https://silly-horse-84.loca.lt'
 })

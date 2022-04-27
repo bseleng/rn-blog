@@ -11,11 +11,19 @@ interface IProps {
   navigation: TNavigatiion
 }
 
-const IndexScreen = () => {
+const IndexScreen = ({navigation}:IProps) => {
   const [state, {addTestData, getBlogPosts}] = useContext(Context)
 
   useEffect(() => {
     getBlogPosts()
+
+    const listener = navigation.addListener('didFocus', () => {
+      getBlogPosts()
+    })
+
+    return () => {
+      listener.remove()
+    }
   }, [])
   return(
     <View style={styles.wrap}>
