@@ -29,7 +29,11 @@ const IndexScreen = ({navigation}:IProps) => {
     <View style={styles.wrap}>
       <Button
         title={'add Test Post'}
-        onPress={() => addTestData()}
+        onPress={() => addTestData().then((status:number) => {
+          if (status > 199 && status < 300) {
+            getBlogPosts()
+          }
+        })}
       />
       {state.blogPosts && state.blogPosts.length > 0 &&(
         <View style={styles.flatListWrap}>

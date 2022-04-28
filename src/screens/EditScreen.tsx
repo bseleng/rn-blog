@@ -24,7 +24,9 @@ const EditScreen = ({navigation}: IProps) => {
   });
   const onSubmit = (data: blogPost) => {
     editBlogPost(data)
-    navigation.goBack()
+      .then(() =>{
+        navigation.goBack()
+      })
   };
 
 

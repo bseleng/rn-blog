@@ -7,8 +7,6 @@ import jsonServer from "../api/jsonServer";
 
 const reducer = (state: State, {type, payload}: Action) => {
   switch (type) {
-    case ActionTypes.ADD_POST:
-      return {...state, blogPosts: [{...payload, id: Math.floor(Math.random() * 999999)}, ...state.blogPosts]}
     case ActionTypes.REMOVE_POST:
       return {...state, blogPosts: state.blogPosts.filter(blogPost => blogPost.id !== payload.id)}
     case ActionTypes.EDIT_POST:
@@ -25,52 +23,52 @@ const initialState = {
   blogPosts: []
 };
 
-const addTestData = (dispatch: React.Dispatch<Action>) => {
+const addTestData = () => {
   return async () => {
-    const testPayload =  {
-        author: 'Ivan',
-        content: 'A simple guy.',
-      }
-    const {data} = await jsonServer.post('/blogPosts', testPayload)
+    const testPayload = {
+      author: 'Ivan',
+      content: 'A simple guy.',
+    }
+    const {status} = await jsonServer.post('/blogPosts', testPayload)
+    return status
   }
 }
 
 const deleteBlogPost = (dispatch: React.Dispatch<Action>) => {
-  return (id: number) => dispatch(
-    {
-      type: ActionTypes.REMOVE_POST,
-      payload: {id}
-    }
-  )
+  return async (id: number) => {
+    const {status} = await jsonServer.delete('/blogPosts/' + id)
+    dispatch(
+      {
+        type: ActionTypes.REMOVE_POST,
+        payload: {id}
+      }
+    )
+    return status
+  }
 }
 
-const addBlogPost = (dispatch: React.Dispatch<Action>) => {
-  return async(payload: blogPost) => {
-    const {data} = await jsonServer.post('/blogPosts', payload)
-
-    // dispatch(
-    //   {
-    //     type: ActionTypes.ADD_POST,
-    //     payload
-    //   }
-    // )
+const addBlogPost = () => {
+  return async (payload: blogPost) => {
+    const {status} = await jsonServer.post('/blogPosts', payload)
+    return status
   }
 }
 
 const editBlogPost = (dispatch: React.Dispatch<Action>) => {
-  return async (payload:blogPost) => {
-
+  return async (payload: blogPost) => {
+    const {status} = await jsonServer.put('/blogPosts/' + payload.id, payload)
     dispatch(
       {
         type: ActionTypes.EDIT_POST,
         payload
       }
     )
+    return status
   }
 }
 
 const getBlogPosts = (dispatch: React.Dispatch<Action>) => {
-  return async() => {
+  return async () => {
     const {data} = await jsonServer.get('/blogPosts')
 
     dispatch({
@@ -80,4 +78,10 @@ const getBlogPosts = (dispatch: React.Dispatch<Action>) => {
   }
 }
 
-export const {Context, Provider} = createDataContext(reducer, {addTestData, deleteBlogPost, addBlogPost, editBlogPost, getBlogPosts}, initialState)
+export const {Context, Provider} = createDataContext(reducer, {
+  addTestData,
+  deleteBlogPost,
+  addBlogPost,
+  editBlogPost,
+  getBlogPosts
+}, initialState)
